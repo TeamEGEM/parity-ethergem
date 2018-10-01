@@ -81,6 +81,84 @@ pub struct EthashParams {
 	#[serde(rename="ecip1010ContinueTransition")]
 	pub ecip1010_continue_transition: Option<Uint>,
 
+
+  /// EtherGem Configs Start
+
+	#[serde(rename="egemMinerReward")]
+	pub egem_miner_reward: Option<Uint>,
+
+	/// See main EthashParams docs.
+	#[serde(rename="devRewardEGEM")]
+	pub dev1_reward: Option<Uint>,
+	/// See main EthashParams docs.
+	#[serde(rename="nodeRewardEGEM")]
+	pub node_reward: Option<Uint>,
+
+	/// See main EthashParams docs.
+	#[serde(rename="dev1Wallet")]
+	pub dev1_wallet: Option<Uint>,
+	/// See main EthashParams docs.
+	#[serde(rename="dev2Wallet")]
+	pub dev2_wallet: Option<Uint>,
+	/// See main EthashParams docs.
+	#[serde(rename="dev3Wallet")]
+	pub dev3_wallet: Option<Uint>,
+	/// See main EthashParams docs.
+	#[serde(rename="cm1Wallet")]
+	pub cm1_wallet: Option<Uint>,
+	/// See main EthashParams docs.
+	#[serde(rename="cm2Wallet")]
+	pub cm2_wallet: Option<Uint>,
+	/// See main EthashParams docs.
+	#[serde(rename="nodeWallet")]
+	pub node_wallet: Option<Uint>,
+
+	/// See main EthashParams docs.
+	#[serde(rename="era0Transition")]
+	pub era0_transition: Option<Uint>,
+	/// See main EthashParams docs.
+	#[serde(rename="era1Transition")]
+	pub era1_transition: Option<Uint>,
+	/// See main EthashParams docs.
+	#[serde(rename="era2Transition")]
+	pub era2_transition: Option<Uint>,
+	/// See main EthashParams docs.
+	#[serde(rename="era3Transition")]
+	pub era3_transition: Option<Uint>,
+	/// See main EthashParams docs.
+	#[serde(rename="era4Transition")]
+	pub era4_transition: Option<Uint>,
+	/// See main EthashParams docs.
+	#[serde(rename="era5Transition")]
+	pub era5_transition: Option<Uint>,
+	/// See main EthashParams docs.
+	#[serde(rename="era6Transition")]
+	pub era6_transition: Option<Uint>,
+
+	/// See main EthashParams docs.
+	#[serde(rename="era0Reward")]
+	pub era0_reward: Option<Uint>,
+	/// See main EthashParams docs.
+	#[serde(rename="era1Reward")]
+	pub era1_reward: Option<Uint>,
+	/// See main EthashParams docs.
+	#[serde(rename="era2Reward")]
+	pub era2_reward: Option<Uint>,
+	/// See main EthashParams docs.
+	#[serde(rename="era3Reward")]
+	pub era3_reward: Option<Uint>,
+	/// See main EthashParams docs.
+	#[serde(rename="era4Reward")]
+	pub era4_reward: Option<Uint>,
+	/// See main EthashParams docs.
+	#[serde(rename="era5Reward")]
+	pub era5_reward: Option<Uint>,
+	/// See main EthashParams docs.
+	#[serde(rename="era6Reward")]
+	pub era6_reward: Option<Uint>,
+
+	/// EtherGem Configs Stop
+
 	/// See main EthashParams docs.
 	#[serde(rename="ecip1017EraRounds")]
 	pub ecip1017_era_rounds: Option<Uint>,

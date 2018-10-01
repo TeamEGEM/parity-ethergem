@@ -30,7 +30,8 @@ pub use self::denominations::*;
 use machine::EthereumMachine;
 use super::spec::*;
 
-fn load<'a, T: Into<Option<SpecParams<'a>>>>(params: T, b: &[u8]) -> Spec {
+/// Load chain spec from `SpecParams` and JSON.
+pub fn load<'a, T: Into<Option<SpecParams<'a>>>>(params: T, b: &[u8]) -> Spec {
 	match params.into() {
 		Some(params) => Spec::load(params, b),
 		None => Spec::load(&::std::env::temp_dir(), b)
@@ -74,6 +75,11 @@ pub fn new_musicoin<'a, T: Into<SpecParams<'a>>>(params: T) -> Spec {
 /// Create a new Ellaism mainnet chain spec.
 pub fn new_ellaism<'a, T: Into<SpecParams<'a>>>(params: T) -> Spec {
 	load(params.into(), include_bytes!("../../res/ethereum/ellaism.json"))
+}
+
+/// Create a new EtherGem mainnet chain spec.
+pub fn new_ethergem<'a, T: Into<SpecParams<'a>>>(params: T) -> Spec {
+	load(params.into(), include_bytes!("../../res/ethereum/ethergem.json"))
 }
 
 /// Create a new Easthub mainnet chain spec.

@@ -38,6 +38,7 @@ pub enum SpecType {
 	Expanse,
 	Musicoin,
 	Ellaism,
+	EtherGem,
 	Easthub,
 	Social,
 	Olympic,
@@ -67,6 +68,7 @@ impl str::FromStr for SpecType {
 			"expanse" => SpecType::Expanse,
 			"musicoin" => SpecType::Musicoin,
 			"ellaism" => SpecType::Ellaism,
+			"ethergem" => SpecType::EtherGem,
 			"easthub" => SpecType::Easthub,
 			"social" => SpecType::Social,
 			"olympic" => SpecType::Olympic,
@@ -91,6 +93,7 @@ impl fmt::Display for SpecType {
 			SpecType::Expanse => "expanse",
 			SpecType::Musicoin => "musicoin",
 			SpecType::Ellaism => "ellaism",
+			SpecType::EtherGem => "ethergem",
 			SpecType::Easthub => "easthub",
 			SpecType::Social => "social",
 			SpecType::Olympic => "olympic",
@@ -115,6 +118,7 @@ impl SpecType {
 			SpecType::Expanse => Ok(ethereum::new_expanse(params)),
 			SpecType::Musicoin => Ok(ethereum::new_musicoin(params)),
 			SpecType::Ellaism => Ok(ethereum::new_ellaism(params)),
+			SpecType::EtherGem => Ok(ethereum::new_ethergem(params)),
 			SpecType::Easthub => Ok(ethereum::new_easthub(params)),
 			SpecType::Social => Ok(ethereum::new_social(params)),
 			SpecType::Olympic => Ok(ethereum::new_olympic(params)),
@@ -368,6 +372,7 @@ mod tests {
 		assert_eq!(SpecType::Expanse, "expanse".parse().unwrap());
 		assert_eq!(SpecType::Musicoin, "musicoin".parse().unwrap());
 		assert_eq!(SpecType::Ellaism, "ellaism".parse().unwrap());
+		assert_eq!(SpecType::EtherGem, "ethergem".parse().unwrap());
 		assert_eq!(SpecType::Easthub, "easthub".parse().unwrap());
 		assert_eq!(SpecType::Social, "social".parse().unwrap());
 		assert_eq!(SpecType::Olympic, "olympic".parse().unwrap());
@@ -394,6 +399,7 @@ mod tests {
 		assert_eq!(format!("{}", SpecType::Expanse), "expanse");
 		assert_eq!(format!("{}", SpecType::Musicoin), "musicoin");
 		assert_eq!(format!("{}", SpecType::Ellaism), "ellaism");
+		assert_eq!(format!("{}", SpecType::EtherGem), "ethergem");
 		assert_eq!(format!("{}", SpecType::Easthub), "easthub");
 		assert_eq!(format!("{}", SpecType::Social), "social");
 		assert_eq!(format!("{}", SpecType::Olympic), "olympic");

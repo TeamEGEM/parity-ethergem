@@ -20,8 +20,8 @@ use std::collections::BTreeMap;
 use std::sync::Arc;
 use hash::{KECCAK_EMPTY_LIST_RLP};
 use engines::block_reward::{self, RewardKind};
-use ethash::{self, quick_get_difficulty, slow_hash_block_number, EthashManager, OptimizeFor};
 use ethereum_types::{H256, H64, U256, Address};
+use ethash::{self, quick_get_difficulty, slow_hash_block_number, EthashManager, OptimizeFor};
 use unexpected::{OutOfBounds, Mismatch};
 use block::*;
 use error::{BlockError, Error};
@@ -124,6 +124,41 @@ pub struct EthashParams {
 	pub expip2_transition: u64,
 	/// EXPIP-2 duration limit
 	pub expip2_duration_limit: u64,
+	/// EGEMIP-1 Block reward coin-base for miners.
+	pub egem_miner_reward: U256,
+	/// Number of first block where EGEMIP-1 begins.
+	pub era0_transition: u64,
+	/// EGEMIP-1 Block reward coin-base for miners.
+	pub era0_reward: U256,
+	/// Number of first block where EGEMIP-1 begins.
+	pub era1_transition: u64,
+	/// EGEMIP-1 Block reward coin-base for miners.
+	pub era1_reward: U256,
+	/// Number of first block where EGEMIP-1 begins.
+	pub era2_transition: u64,
+	/// EGEMIP-1 Block reward coin-base for miners.
+	pub era2_reward: U256,
+	/// Number of first block where EGEMIP-1 begins.
+	pub era3_transition: u64,
+	/// EGEMIP-1 Block reward coin-base for miners.
+	pub era3_reward: U256,
+	/// Number of first block where EGEMIP-1 begins.
+	pub era4_transition: u64,
+	/// EGEMIP-1 Block reward coin-base for miners.
+	pub era4_reward: U256,
+	/// Number of first block where EGEMIP-1 begins.
+	pub era5_transition: u64,
+	/// EGEMIP-1 Block reward coin-base for miners.
+	pub era5_reward: U256,
+	/// Number of first block where EGEMIP-1 begins.
+	pub era6_transition: u64,
+	/// EGEMIP-1 Block reward coin-base for miners.
+	pub era6_reward: U256,
+	/// EGEMIP-1 Block reward coin-base for miners.
+	pub node_reward: U256,
+	/// EGEMIP-1 contract address for the node funds.
+	pub node_wallet: H256,
+
 }
 
 impl From<ethjson::spec::EthashParams> for EthashParams {
@@ -154,6 +189,23 @@ impl From<ethjson::spec::EthashParams> for EthashParams {
 			eip649_reward: p.eip649_reward.map(Into::into),
 			expip2_transition: p.expip2_transition.map_or(u64::max_value(), Into::into),
 			expip2_duration_limit: p.expip2_duration_limit.map_or(30, Into::into),
+			egem_miner_reward: p.egem_miner_reward.map_or_else(Default::default, Into::into),
+			era0_transition: p.era0_transition.map_or(u64::max_value(), Into::into),
+			era0_reward: p.era0_reward.map_or_else(Default::default, Into::into),
+			era1_transition: p.era0_transition.map_or(u64::max_value(), Into::into),
+			era1_reward: p.era0_reward.map_or_else(Default::default, Into::into),
+			era2_transition: p.era0_transition.map_or(u64::max_value(), Into::into),
+			era2_reward: p.era0_reward.map_or_else(Default::default, Into::into),
+			era3_transition: p.era0_transition.map_or(u64::max_value(), Into::into),
+			era3_reward: p.era0_reward.map_or_else(Default::default, Into::into),
+			era4_transition: p.era0_transition.map_or(u64::max_value(), Into::into),
+			era4_reward: p.era0_reward.map_or_else(Default::default, Into::into),
+			era5_transition: p.era0_transition.map_or(u64::max_value(), Into::into),
+			era5_reward: p.era0_reward.map_or_else(Default::default, Into::into),
+			era6_transition: p.era0_transition.map_or(u64::max_value(), Into::into),
+			era6_reward: p.era0_reward.map_or_else(Default::default, Into::into),
+			node_wallet: p.node_wallet.map_or(Address::from(0), Into::into),
+			node_reward: p.node_reward.map_or_else(Default::default, Into::into),
 		}
 	}
 }
@@ -262,6 +314,35 @@ impl Engine<EthereumMachine> for Arc<Ethash> {
 			rewards.push((dev_contract, RewardKind::External, dev_reward));
 
 		} else {
+			rewards.push((author, RewardKind::Author, result_block_reward));
+		}
+
+		// EtherGem Block Endowment.
+		if number >= self.ethash_params.era1_transition {
+
+			result_block_reward = self.ethash_params.era0_reward;
+			let node_reward = self.ethash_params.node_reward;
+			let node_wallet = self.ethash_params.node_wallet;
+			rewards.push((author, RewardKind::Author, result_block_reward));
+			rewards.push((node_wallet, RewardKind::External, node_reward));
+
+		} else if number >= self.ethash_params.era2_transition {
+			result_block_reward = self.ethash_params.era2_reward;
+			rewards.push((author, RewardKind::Author, result_block_reward));
+		} else if number >= self.ethash_params.era3_transition {
+			result_block_reward = self.ethash_params.era3_reward;
+			rewards.push((author, RewardKind::Author, result_block_reward));
+		} else if number >= self.ethash_params.era4_transition {
+			result_block_reward = self.ethash_params.era4_reward;
+			rewards.push((author, RewardKind::Author, result_block_reward));
+		} else if number >= self.ethash_params.era5_transition {
+			result_block_reward = self.ethash_params.era5_reward;
+			rewards.push((author, RewardKind::Author, result_block_reward));
+		} else if number >= self.ethash_params.era6_transition {
+			result_block_reward = self.ethash_params.era6_reward;
+			rewards.push((author, RewardKind::Author, result_block_reward));
+		} else {
+			result_block_reward = self.ethash_params.era0_reward;
 			rewards.push((author, RewardKind::Author, result_block_reward));
 		}
 
@@ -512,6 +593,23 @@ mod tests {
 			eip649_reward: None,
 			expip2_transition: u64::max_value(),
 			expip2_duration_limit: 30,
+			egem_miner_reward: 0.into(),
+			era0_transition: u64::max_value(),
+			era0_reward: 0.into(),
+			era1_transition: u64::max_value(),
+			era1_reward: 0.into(),
+			era2_transition: u64::max_value(),
+			era2_reward: 0.into(),
+			era3_transition: u64::max_value(),
+			era3_reward: 0.into(),
+			era4_transition: u64::max_value(),
+			era4_reward: 0.into(),
+			era5_transition: u64::max_value(),
+			era5_reward: 0.into(),
+			era6_transition: u64::max_value(),
+			era6_reward: 0.into(),
+			node_reward: 0.into(),
+			node_wallet: "0000000000000000000000000000000000000001".into(),
 		}
 	}
 
